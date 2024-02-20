@@ -1,0 +1,4 @@
+.nav-item:hover, .nav-item::after{
+  /* background: #fe793684; */
+  box-shadow: 1px 1px 10px #fe7936;
+}
