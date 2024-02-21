@@ -26,8 +26,8 @@ export class News extends Component {
         }
     }
 
-    async componentDidMount() {
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&sortBy=popularity&apiKey=417df8ddb39847d6953fef1c6fbfcadb&page=${this.state.page}&pagesize=${this.props.pageSize}`
+    async updateNews(){
+        const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&sortBy=popularity&apiKey=${this.props.apiKey}&page=${this.state.page}&pagesize=${this.props.pageSize}`
         this.setState({ loading: true })
         let data = await fetch(url);
         let parsedData = await data.json();
@@ -37,41 +37,34 @@ export class News extends Component {
             totalResults: parsedData.totalResults,
             loading: false
         })
-
     }
+
+    async componentDidMount() {
+        this.updateNews()
+        }
 
     prevPageHandler = async () => {
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&sortBy=popularity&apiKey=417df8ddb39847d6953fef1c6fbfcadb&page=${this.state.page >= 2 ? this.state.page - 1 : this.state.page}&pagesize=${this.props.pageSize}`
-        this.setState({ loading: true })
-        let data = await fetch(url);
-        let parsedData = await data.json();
-        this.setState({
-            page: this.state.page >= 2 ? this.state.page - 1 : this.state.page,
-            articles: parsedData.articles,
-            loading: false
+        await this.setState({
+            page: this.state.page > 1 ? this.state.page - 1 : this.state.page,
         })
+        this.updateNews()
     }
+    
     nextPageHandler = async () => {
-        console.log(this.state.page)
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&sortBy=popularity&apiKey=417df8ddb39847d6953fef1c6fbfcadb&page=${this.state.page + 1}&pagesize=${this.props.pageSize}`
-        this.setState({ loading: true })
-        let data = await fetch(url);
-        let parsedData = await data.json();
-        this.setState({
+        await this.setState({
             page: this.state.page + 1,
-            articles: parsedData.articles,
-            loading: false
         })
+        this.updateNews()
     }
     render() {
         return (
             <div className='container m-auto my-5'>
-                <h2 className="fw-bold text-light mb-3">Top Headlines</h2>
+                <h2 className="fw-bold text-light mb-3">{`Top Headlines - ${this.props.category.charAt(0).toUpperCase()+this.props.category.slice(1)}`}</h2>
                 {this.state.loading && <Spinner />}
-                <div className="row justify-content-evenly row-gap-3">
-                    {this.state.articles.map((e) => {
-                        return <div className="col-md-4 col-sm-1" key={e.url}>
-                            <NewsItem title={e.title ? e.title : 'Not Available'} description={e.description ? e.description : 'Not Available'} imgUrl={e.urlToImage ? e.urlToImage : 'https://media.istockphoto.com/id/1192070239/photo/abstract-digital-news-concept.webp?b=1&s=170667a&w=0&k=20&c=gh89_KBMRqNn3nhTcZwjIQfsM45NnhWI_k8SDa9A6NM='} newsUrl={e.url} />
+                <div className="row row-gap-3">
+                    {this.state.articles && this.state.articles.map((e) => {
+                        return <div className="col-lg-4 col-md-6" key={e.url}>
+                            <NewsItem title={e.title ? e.title : 'Not Available'} description={e.description ? e.description : 'Not Available'} imgUrl={e.urlToImage ? e.urlToImage : 'https://media.istockphoto.com/id/1192070239/photo/abstract-digital-news-concept.webp?b=1&s=170667a&w=0&k=20&c=gh89_KBMRqNn3nhTcZwjIQfsM45NnhWI_k8SDa9A6NM='} newsUrl={e.url} author={e.author} date={e.publishedAt} source={e.source.name} />
                         </div>
                     })}
                     <div className="container d-flex justify-content-between">
@@ -84,5 +77,6 @@ export class News extends Component {
         )
     }
 }
+ 
 
 export default News
