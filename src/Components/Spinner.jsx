@@ -4,9 +4,19 @@ import Loading from '../assets/Loading.gif'
 export class Spinner extends Component {
   render() {
     return (
-      <div className="m-auto" style={{width: '35rem'}}>
-        <img className='rounded-circle' src={Loading} alt="Loading..." style={{width: '100%'}} />
-      </div>
+      <>
+        <div className="d-flex justify-content-center gap-3 my-3">
+          <div className="spinner-grow" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <div className="spinner-grow" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <div className="spinner-grow" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </>
     )
   }
 }

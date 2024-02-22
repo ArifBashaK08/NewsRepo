@@ -30,14 +30,18 @@ export class News extends Component {
     }
 
     async updateNews() {
+        this.props.setProgress(10)
         const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&sortBy=popularity&apiKey=${this.props.apiKey}&page=${this.state.page}&pagesize=${this.props.pageSize}`
         let data = await fetch(url);
+        this.props.setProgress(50)
         let parsedData = await data.json();
         console.log(parsedData)
+        this.props.setProgress(75)
         this.setState({
             articles: parsedData.articles,
             totalResults: parsedData.totalResults
         })
+        this.props.setProgress(100)
     }
 
     async componentDidMount() {
@@ -65,7 +69,6 @@ export class News extends Component {
         return (
             <>
                 <h2 className="fw-bold text-light text-center mb-4">{`Top Headlines - ${this.props.category.charAt(0).toUpperCase() + this.props.category.slice(1)}`}</h2>
-                {/* {this.state.loading && <Spinner />} */}
                 <InfiniteScroll
                     dataLength={this.state.articles.length}
                     next={this.fetchMoreData}

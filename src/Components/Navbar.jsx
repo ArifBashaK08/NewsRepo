@@ -6,7 +6,7 @@ export class Navbar extends Component {
     return (
       <nav className="navbar navbar-expand-lg align-items-center" style={{ background: '#030637' }}>
         <div className="container-fluid">
-          <Link className="navbar-brand fw-bold text-light" to="/">{this.props.title}</Link>
+          <Link className="navbar-brand fw-bold" to="/"  style={{backgroundImage: 'linear-gradient(90deg, rgba(0, 150, 136, 1) 0%, rgba(255, 193, 7, 1) 100%)',  webkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent'}}>{this.props.title}</Link>
           <button className="navbar-toggler btn btn-outline-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
