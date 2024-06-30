@@ -8,8 +8,7 @@ import './index.css'
 
 
 const pageSize = 24;
-const apiKey = "417df8ddb39847d6953fef1c6fbfcadb"
-// const apiKey = import.meta.env.VITE_NEWS_API
+const apiKey = import.meta.env.VITE_NEWS_API
 console.log(apiKey)
 const body = document.querySelector('body');
 body.style.backgroundImage = 'radial-gradient(circle at 25% 39%, rgba(0, 150, 136, 1) 0%, rgba(63, 81, 181, 1) 100%)';
